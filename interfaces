@@ -6,29 +6,31 @@ iface eno1 inet manual
 iface eno2 inet manual
 
 auto vmbr0
-iface vmbr0 inet static
-        address 10.152.0.69/16
-        bridge-ports eno2
-        bridge-stp off
-        bridge-fd 0
-        post-up ip route add 10.152.0.0/16 dev vmbr0 src 10.152.0.69 table private
-        post-up ip route add default via 10.152.255.254 dev vmbr0 table private
-        post-up ip rule add from 10.152.0.69/32 table private priority 100
-        post-up ip rule add iif vmbr0 table private priority 101
-#MGMT
-
-auto vmbr1
-iface vmbr1 inet manual
+iface vmbr0 inet manual
         bridge-ports eno1
         bridge-stp off
         bridge-fd 0
 #Uplink bridge
 
-auto vmbr2
-iface vmbr2 inet static
-        address 192.168.1.3/24
-        gateway 192.168.1.1
+auto vmbr1
+iface vmbr1 inet static
+        address 10.1.1.0/24
+        gateway 10.1.1.1
         bridge-ports none
         bridge-stp off
         bridge-fd 0
 #Internal LAN
+
+auto vmbr2
+iface vmbr2 inet static
+        address 10.152.0.85/16
+        bridge-ports eno2
+        bridge-stp off
+        bridge-fd 0
+        post-up ip route add 10.152.0.0/16 dev vmbr0 src 10.152.0.85 table 200
+        post-up ip route add default via 10.152.255.254 dev vmbr0 table 200
+        post-up ip rule add from 10.152.0.85/32 table 200 priority 100
+        post-up ip rule add iif vmbr2 table 200 priority 101
+        post-down ip rule del from 10.152.0.85/32 table 200 priority 100 || true
+        post-down ip rule del iif vmbr2 table 200 priority 101 || true
+#MGMT
