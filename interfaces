@@ -28,9 +28,7 @@ iface vmbr2 inet static
         bridge-stp off
         bridge-fd 0
         post-up ip route add 10.152.0.0/16 dev vmbr0 src 10.152.0.85 table 200
-        post-up ip route add default via 10.152.255.254 dev vmbr0 table 200
+        post-up ip route add default via 10.152.255.254 dev vmbr2 table 200
         post-up ip rule add from 10.152.0.85/32 table 200 priority 100
         post-up ip rule add iif vmbr2 table 200 priority 101
-        post-down ip rule del from 10.152.0.85/32 table 200 priority 100 || true
-        post-down ip rule del iif vmbr2 table 200 priority 101 || true
 #MGMT
