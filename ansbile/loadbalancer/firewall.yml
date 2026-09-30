@@ -1,0 +1,32 @@
+- name: Firewall
+  hosts: loadbalancer
+  become: true
+  tasks:
+    - name: Install ufw
+      ansible.builtin.apt:
+        name: ufw
+        state: present
+    - name: allow http, https ports
+      community.general.ufw:
+        port: "{{ item }}"
+        rule: allow
+        proto: any
+        log: true
+      loop:
+        - http
+        - https
+
+    - name: allow ssh port
+      community.general.ufw:
+        rule: allow
+        port: ssh
+
+    - name: allow mc port (Minecraft)
+      community.general.ufw:
+        rule: allow
+        port: '25565'
+    
+    - name: allow mc port (Minecraft)
+      community.general.ufw:
+        rule: allow
+        port: '25566'

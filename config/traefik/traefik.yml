@@ -23,9 +23,25 @@ providers:
 entryPoints:
   web:
     address: ":80"
+    http:
+      redirections:
+        entryPoint:
+          to: websecure
+          scheme: https
 
   websecure:
     address: ":443"
+    http:
+      tls:
+        certResolver: letsencrypt
 
   metrics:
-    address: ":9100"
+    address: ":9101"
+
+certificatesResolvers:
+  letsencrypt:
+    acme:
+      email: bence@gyurus.hu
+      storage: /etc/traefik/acme.json
+      httpChallenge:
+        entryPoint: web

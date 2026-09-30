@@ -47,3 +47,5 @@ terraform.rc
 *.env
 
 src
+
+.venv
