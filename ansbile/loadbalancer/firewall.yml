@@ -1,32 +1,40 @@
 - name: Firewall
   hosts: loadbalancer
   become: true
+
   tasks:
     - name: Install ufw
       ansible.builtin.apt:
         name: ufw
         state: present
-    - name: allow http, https ports
+        update_cache: true
+
+    - name: Default deny incoming
       community.general.ufw:
-        port: "{{ item }}"
+        direction: incoming
+        policy: deny
+
+    - name: Default allow outgoing
+      community.general.ufw:
+        direction: outgoing
+        policy: allow
+
+    - name: Allow SSH
+      community.general.ufw:
         rule: allow
-        proto: any
+        port: "22"
+        proto: tcp
+
+    - name: Allow HTTP and HTTPS
+      community.general.ufw:
+        rule: allow
+        port: "{{ item }}"
+        proto: tcp
         log: true
       loop:
-        - http
-        - https
+        - "80"
+        - "443"
 
-    - name: allow ssh port
+    - name: Enable UFW
       community.general.ufw:
-        rule: allow
-        port: ssh
-
-    - name: allow mc port (Minecraft)
-      community.general.ufw:
-        rule: allow
-        port: '25565'
-    
-    - name: allow mc port (Minecraft)
-      community.general.ufw:
-        rule: allow
-        port: '25566'
+        state: enabled
