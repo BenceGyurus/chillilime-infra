@@ -5,8 +5,17 @@ http:
       entryPoints:
         - websecure
       service: mc-service
+      middlewares:
+        - mc-ratelimit
       tls:
         certResolver: letsencrypt
+
+  middlewares:
+    mc-ratelimit:
+      rateLimit:
+        average: 10
+        period: 1s
+        burst: 20
 
   services:
     mc-service:

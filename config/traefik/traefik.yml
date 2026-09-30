@@ -28,12 +28,10 @@ entryPoints:
         entryPoint:
           to: websecure
           scheme: https
+          permanent: true
 
   websecure:
     address: ":443"
-    http:
-      tls:
-        certResolver: letsencrypt
 
   metrics:
     address: ":9101"
@@ -43,5 +41,4 @@ certificatesResolvers:
     acme:
       email: bence@gyurus.hu
       storage: /etc/traefik/acme.json
-      httpChallenge:
-        entryPoint: web
+      tlsChallenge: {}
