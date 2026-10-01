@@ -9,10 +9,21 @@ services:
             - "8443:8443" # HTTPS
             - "8123:8123" # DYNMAP
             - "19132:19132/udp" # BEDROCK
-            - "25500-25600:25500-25600" # MC SERV PORT RANGE
         volumes:
             - /home/mc/crafty/backups:/crafty/backups
             - /home/mc/crafty/logs:/crafty/logs
             - /home/mc/crafty/servers:/crafty/servers
             - /home/mc/crafty/config:/crafty/app/config
             - /home/mc/crafty/import:/crafty/import
+    
+    proxy:
+        image: itzg/mc-proxy
+        environment:
+            BUNGEE_JAR_REVISION: "1"
+            CFG_MOTD: Powered by Docker
+            REPLACE_ENV_VARIABLES: "true"
+        ports:
+        - "25565:25577"
+        volumes:
+        - ./config.yml:/config/config.yml
+        - ./proxy-data:/server

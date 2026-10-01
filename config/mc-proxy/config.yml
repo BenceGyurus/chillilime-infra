@@ -1,0 +1,54 @@
+server_connect_timeout: 5000
+remote_ping_cache: -1
+remote_ping_timeout: 5000
+
+forge_support: false
+player_limit: -1
+
+online_mode: false
+ip_forward: true
+
+timeout: 30000
+network_compression_threshold: 256
+
+log_commands: false
+log_pings: false
+
+connection_throttle: 4000
+connection_throttle_limit: 3
+
+prevent_proxy_connections: false
+
+permissions:
+  default:
+    - bungeecord.command.server
+    - bungeecord.command.list
+
+  admin:
+    - bungeecord.command.alert
+    - bungeecord.command.end
+    - bungeecord.command.ip
+    - bungeecord.command.reload
+
+groups: {}
+
+disabled_commands: []
+
+
+servers:
+  socimc:
+    motd: 'gyugyu szeró'
+    address: crafty:25565
+    restricted: false
+
+listeners:
+  - host: 0.0.0.0:25577
+
+    forced_hosts:
+      mc.gyurus.hu: socimc
+
+    priorities:
+      - socimc
+
+    force_default_server: false
+    ping_passthrough: true
