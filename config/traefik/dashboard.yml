@@ -1,0 +1,7 @@
+http:
+  routers:
+    dashboard:
+        rule: "Host(`traefik.chililime`) && (PathPrefix(`/api`) || PathPrefix(`/dashboard`))"
+        entryPoints:
+          - "web"
+        service: "api@internal"

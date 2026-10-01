@@ -27,3 +27,18 @@ http:
   serversTransports:
     mc-transport:
       insecureSkipVerify: true
+
+
+tcp:
+  routers:
+    minecraft:
+      entryPoints:
+        - minecraft
+      rule: "HostSNI(`*`)"
+      service: minecraft-servers
+
+  services:
+    minecraft-servers:
+      loadBalancer:
+        servers:
+          - address: "10.1.1.3:25565"

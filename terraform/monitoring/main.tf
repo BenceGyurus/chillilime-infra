@@ -26,7 +26,7 @@ resource "proxmox_virtual_environment_vm" "monitoring" {
   name        = "monitoring"
   started     = true
   description = "Egy olyan kiszolgáló eszköz ahol lehet látni, hogy mi a hézag és Gyugyu mennyire használja az mc szerót amit annyira szerett volna"
-  tags        = ["debian", "minecraft", "terraform"]
+  tags        = ["debian", "monitoring", "terraform"]
 
   vm_id = 103
 
@@ -51,7 +51,7 @@ resource "proxmox_virtual_environment_vm" "monitoring" {
   disk {
     datastore_id = "vm-disk1"
     interface    = "scsi0"
-    size         = 30
+    size         = 20
   }
 
   network_device {
@@ -65,12 +65,11 @@ resource "proxmox_virtual_environment_vm" "monitoring" {
     user_account {
       username = var.vm_username
       password = var.vm_password
-      keys     = [trimspace(file(pathexpand("~/.ssh/id_ed25519.pub")))]
     }
 
     ip_config {
       ipv4 {
-        address = "10.1.1.3/24"
+        address = "10.1.1.4/24"
         gateway = "10.1.1.1"
       }
     }
@@ -133,11 +132,15 @@ resource "null_resource" "docker_setup_and_run" {
     destination = "/home/monitoring/prometheus.yml"
   }
 
+  provisioner "file" {
+    source      = "${path.module}/../../config/prometheus.yml"
+    destination = "/home/monitoring/prometheus.yml"
+  }
+
 
   provisioner "remote-exec" {
     inline = [
       "bash /home/monitoring/install-docker.sh",
-      "apt install unzip -y",
       "chgrp root /home/monitoring && chmod g+x /home/monitoring",
       "chgrp -R root /home/monitoring/monitoring",
       "chmod -R g+rwX /home/monitoring/monitoring",

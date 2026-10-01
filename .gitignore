@@ -49,3 +49,5 @@ terraform.rc
 src
 
 .venv
+
+pve.yml
