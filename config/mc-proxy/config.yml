@@ -34,11 +34,15 @@ groups: {}
 
 disabled_commands: []
 
-
 servers:
   socimc:
     motd: 'gyugyu szeró'
     address: crafty:25565
+    restricted: false
+
+  dori:
+    motd: 'Dórika szeró'
+    address: crafty:25568
     restricted: false
 
 listeners:
@@ -46,9 +50,11 @@ listeners:
 
     forced_hosts:
       mc.gyurus.hu: socimc
+      dori.gyurus.hu: dori
 
     priorities:
       - socimc
+      - dori
 
     force_default_server: false
     ping_passthrough: true

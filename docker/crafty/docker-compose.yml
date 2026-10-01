@@ -22,6 +22,7 @@ services:
             BUNGEE_JAR_REVISION: "1"
             CFG_MOTD: Powered by Docker
             REPLACE_ENV_VARIABLES: "true"
+        restart: always
         ports:
         - "25565:25577"
         volumes:
