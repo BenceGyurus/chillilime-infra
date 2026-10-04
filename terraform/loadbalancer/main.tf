@@ -78,6 +78,7 @@ resource "null_resource" "traefik_setup" {
 
   triggers = {
     installer = filesha256("${path.module}/../../scripts/traefik.sh")
+    mc_config = filesha256("${path.module}/../../traefik/dynamic/mc.yml")
     host      = split("/", proxmox_virtual_environment_container.loadbalancer.initialization[0].ip_config[0].ipv4[0].address)[0]
   }
 
