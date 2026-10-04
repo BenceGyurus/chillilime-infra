@@ -1,7 +1,7 @@
 http:
   routers:
     mc-router:
-      rule: "Host(`mc.gyurus.hu`)"
+      rule: "Host(`mc.chililime.hu`)"
       entryPoints:
         - websecure
       service: mc-service
