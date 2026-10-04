@@ -41,7 +41,7 @@ servers:
     restricted: false
 
   dori:
-    motd: 'Dórika szeró'
+    motd: 'Dorito szeró'
     address: crafty:25568
     restricted: false
 
@@ -49,8 +49,8 @@ listeners:
   - host: 0.0.0.0:25577
 
     forced_hosts:
-      mc.gyurus.hu: socimc
-      dori.gyurus.hu: dori
+      sch.mc.chililime.hu: socimc
+      dori.mc.chililime.hu: dori
 
     priorities:
       - socimc
