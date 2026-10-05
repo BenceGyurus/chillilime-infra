@@ -1,0 +1,77 @@
+config-version = "2.7"
+
+bind = "0.0.0.0:25577"
+
+motd = "${CFG_MOTD}"
+show-max-players = 500
+
+online-mode = false
+force-key-authentication = false
+
+prevent-client-proxy-connections = false
+
+player-info-forwarding-mode = "modern"
+forwarding-secret-file = "forwarding.secret"
+
+announce-forge = false
+kick-existing-players = false
+
+ping-passthrough = "DISABLED"
+
+enable-player-address-logging = true
+
+
+[servers]
+
+socimc = "crafty:25565"
+dori = "crafty:25568"
+
+try = [
+  "socimc",
+  "dori"
+]
+
+
+[forced-hosts]
+
+"sch.mc.chililime.hu" = [
+  "socimc"
+]
+
+"dori.mc.chililime.hu" = [
+  "dori"
+]
+
+
+[advanced]
+
+compression-threshold = 256
+compression-level = -1
+
+login-ratelimit = 4000
+
+connection-timeout = 5000
+
+read-timeout = 30000
+
+haproxy-protocol = false
+tcp-fast-open = false
+
+bungee-plugin-message-channel = true
+
+show-ping-requests = false
+log-command-executions = false
+log-player-connections = true
+
+failover-on-unexpected-server-disconnect = true
+announce-proxy-commands = true
+
+accepts-transfers = false
+
+
+[query]
+
+enabled = false
+port = 25577
+map = "Velocity"
+show-plugins = false

@@ -19,12 +19,27 @@ services:
     proxy:
         image: itzg/mc-proxy
         environment:
-            BUNGEE_JAR_REVISION: "1"
-            CFG_MOTD: Powered by Docker
+            TYPE: VELOCITY
+            CFG_MOTD: "Chilime mc server"
             REPLACE_ENV_VARIABLES: "true"
+
         restart: always
+
         ports:
-        - "25565:25577"
+            - "25565:25577"
+
         volumes:
-        - ./config.yml:/config/config.yml
-        - ./proxy-data:/server
+            - ./velocity.toml:/config/velocity.toml:ro
+            - ./forwarding.secret:/config/forwarding.secret:ro
+            - ./proxy-data:/server
+    database:
+        image: 'postgres:17'
+
+        ports:
+            - 5432:5432
+
+        volumes:
+            - ./db-data:/var/lib/postgresql/data/
+
+        env_file:
+            - .env
