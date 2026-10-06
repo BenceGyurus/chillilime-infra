@@ -86,6 +86,10 @@ fi
 chown -R root:traefik /etc/traefik
 chmod 750 /etc/traefik
 chmod 640 /etc/traefik/traefik.yml
+# ACME storage must be writable by the service user before the first start.
+touch /etc/traefik/acme.json
+chown traefik:traefik /etc/traefik/acme.json
+chmod 600 /etc/traefik/acme.json
 
 # 8. Systemd service egység létrehozása
 echo "Systemd service fájl létrehozása (/etc/systemd/system/traefik.service)..."
@@ -111,6 +115,7 @@ CapabilityBoundingSet=CAP_NET_BIND_SERVICE
 NoNewPrivileges=true
 PrivateTmp=true
 ProtectSystem=full
+ReadWritePaths=/etc/traefik/acme.json
 ProtectHome=true
 
 [Install]

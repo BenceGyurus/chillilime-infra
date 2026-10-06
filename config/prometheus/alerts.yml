@@ -1,0 +1,25 @@
+groups:
+  - name: infrastructure
+    rules:
+      - alert: MonitoringTargetDown
+        expr: up == 0
+        for: 2m
+        labels:
+          severity: critical
+        annotations:
+          summary: 'Target unavailable: {{ $labels.instance }}'
+          description: 'Prometheus has failed to scrape {{ $labels.job }} for at least 2 minutes.'
+      - alert: HostMemoryLow
+        expr: node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes < 0.1
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: 'Available memory below 10%: {{ $labels.instance }}'
+      - alert: HostDiskSpaceLow
+        expr: (node_filesystem_avail_bytes{fstype!~"tmpfs|devtmpfs|overlay|squashfs"} / node_filesystem_size_bytes{fstype!~"tmpfs|devtmpfs|overlay|squashfs"} < 0.1) and on(instance, device, mountpoint) (node_filesystem_readonly == 0)
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: 'Free disk space below 10%: {{ $labels.instance }} {{ $labels.mountpoint }}'

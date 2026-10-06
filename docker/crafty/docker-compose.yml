@@ -15,23 +15,17 @@ services:
             - /home/mc/crafty/servers:/crafty/servers
             - /home/mc/crafty/config:/crafty/app/config
             - /home/mc/crafty/import:/crafty/import
-    
-    proxy:
-        image: itzg/mc-proxy
-        environment:
-            TYPE: VELOCITY
-            CFG_MOTD: "Chilime mc server"
-            REPLACE_ENV_VARIABLES: "true"
-
+    mc-router:
+        image: itzg/mc-router
         restart: always
-
+        environment:
+            USE_PROXY_PROTOCOL: "true"
+            MAPPING: |
+                dori.mc.chililime.hu=crafty:25568
+                sch.mc.chililime.hu=crafty:25565
         ports:
-            - "25565:25577"
-
-        volumes:
-            - ./velocity.toml:/config/velocity.toml:ro
-            - ./forwarding.secret:/config/forwarding.secret:ro
-            - ./proxy-data:/server
+        - "25565:25565"
+  
     database:
         image: 'postgres:17'
 

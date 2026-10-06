@@ -35,6 +35,16 @@
         - "80"
         - "443"
 
+    - name: Allow metrics from the monitoring VM
+      community.general.ufw:
+        rule: allow
+        from_ip: "10.1.1.4"
+        port: "{{ item }}"
+        proto: tcp
+      loop:
+        - "9100"
+        - "9101"
+
     - name: Enable UFW
       community.general.ufw:
         state: enabled

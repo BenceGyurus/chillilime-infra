@@ -51,3 +51,44 @@ src
 .venv
 
 pve.yml
+# Environment variants; publish only empty templates/examples
+.env.*
+!.env.template
+!.env.example
+
+# Local plans and machine/editor artifacts
+*.tfplan
+*.plan
+planout
+.DS_Store
+__pycache__/
+*.pyc
+
+# Private key material and service secrets
+*.pem
+*.key
+id_rsa
+id_ed25519
+*.p12
+*.pfx
+acme.json
+forwarding.secret
+forwarding-secret
+
+# Runtime data (configuration sources under config/ remain tracked)
+/docker/crafty/db-data/
+/docker/crafty/crafty/
+/docker/monitoring/prometheus/
+/docker/monitoring/grafana/
+/docker/monitoring/pve-exporter/
+*.log
+
+# Local database files and backups
+*.sqlite
+*.sqlite3
+*.sqlite-wal
+*.sqlite-shm
+*.db
+*.db-wal
+*.db-shm
+/backups/

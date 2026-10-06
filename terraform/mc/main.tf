@@ -142,3 +142,33 @@ resource "null_resource" "docker_setup_and_run" {
 
 
 }
+
+resource "null_resource" "node_exporter_setup" {
+  depends_on = [null_resource.docker_setup_and_run]
+
+  triggers = {
+    host        = split("/", proxmox_virtual_environment_vm.mc.initialization[0].ip_config[0].ipv4[0].address)[0]
+    vm_username = var.vm_username
+    deployment  = "node-exporter-v1"
+  }
+
+  lifecycle {
+    replace_triggered_by = [proxmox_virtual_environment_vm.mc]
+  }
+
+  connection {
+    type        = "ssh"
+    host        = self.triggers.host
+    user        = var.vm_username
+    private_key = file(pathexpand("~/.ssh/id_ed25519"))
+    timeout     = "10m"
+  }
+
+  provisioner "remote-exec" {
+    inline = [
+      "sudo -n apt-get update",
+      "sudo -n apt-get install -y prometheus-node-exporter",
+      "sudo -n systemctl enable --now prometheus-node-exporter"
+    ]
+  }
+}

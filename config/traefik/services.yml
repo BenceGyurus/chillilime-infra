@@ -1,0 +1,24 @@
+http:
+  routers:
+    grafana-router:
+      rule: "Host(`grafana.chililime.hu`)"
+      entryPoints:
+        - websecure
+      service: grafana-service
+      middlewares:
+        - grafana-ratelimit
+      tls:
+        certResolver: letsencrypt
+
+  middlewares:
+    grafana-ratelimit:
+      rateLimit:
+        average: 10
+        period: 1s
+        burst: 20
+
+  services:
+    grafana-service:
+      loadBalancer:
+        servers:
+          - url: "http://10.1.1.4:3000"

@@ -1,0 +1,5 @@
+# Copy to pve.yml locally; never commit populated credentials.
+default:
+  user: "monitoring@pve"
+  password: ""
+  verify_ssl: false

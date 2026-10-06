@@ -50,7 +50,7 @@ resource "proxmox_virtual_environment_container" "loadbalancer" {
     hostname = "loadbalancer"
 
     dns {
-        servers = ["8.8.8.8","1.1.1.1"]
+      servers = ["8.8.8.8", "1.1.1.1"]
     }
 
     user_account {
@@ -77,9 +77,12 @@ resource "proxmox_virtual_environment_container" "loadbalancer" {
 resource "null_resource" "traefik_setup" {
 
   triggers = {
-    installer = filesha256("${path.module}/../../scripts/traefik.sh")
-    mc_config = filesha256("${path.module}/../../traefik/dynamic/mc.yml")
-    host      = split("/", proxmox_virtual_environment_container.loadbalancer.initialization[0].ip_config[0].ipv4[0].address)[0]
+    config     = filesha256("${path.module}/../../config/traefik/traefik.yml")
+    services   = filesha256("${path.module}/../../config/traefik/services.yml")
+    deployment = "traefik-config-v3"
+    installer  = filesha256("${path.module}/../../scripts/traefik.sh")
+    mc_config  = filesha256("${path.module}/../../config/traefik/mc.yml")
+    host       = split("/", proxmox_virtual_environment_container.loadbalancer.initialization[0].ip_config[0].ipv4[0].address)[0]
   }
 
   lifecycle {
@@ -96,14 +99,35 @@ resource "null_resource" "traefik_setup" {
 
   provisioner "file" {
     source      = "${path.module}/../../scripts/traefik.sh"
-    destination = "/root/install-traefik.sh"
+    destination = "/tmp/install-traefik.sh"
+  }
+
+  provisioner "file" {
+    source      = "${path.module}/../../config/traefik/traefik.yml"
+    destination = "/tmp/chillilime-traefik.yml"
+  }
+
+  provisioner "file" {
+    source      = "${path.module}/../../config/traefik/mc.yml"
+    destination = "/tmp/chillilime-traefik-mc.yml"
+  }
+
+  provisioner "file" {
+    source      = "${path.module}/../../config/traefik/services.yml"
+    destination = "/tmp/chillilime-traefik-services.yml"
   }
 
   provisioner "remote-exec" {
     inline = [
-      "bash /root/install-traefik.sh",
-      "DEBIAN_FRONTEND=noninteractive apt-get install -y prometheus-node-exporter",
-      "systemctl enable --now prometheus-node-exporter"
+      "sudo -n install -d -m 0755 /etc/traefik/dynamic",
+      "sudo -n install -m 0644 /tmp/chillilime-traefik.yml /etc/traefik/traefik.yml",
+      "sudo -n install -m 0644 /tmp/chillilime-traefik-mc.yml /etc/traefik/dynamic/mc.yml",
+      "sudo -n install -m 0644 /tmp/chillilime-traefik-services.yml /etc/traefik/dynamic/services.yml",
+      "sudo -n touch /etc/traefik/acme.json",
+      "sudo -n bash /tmp/install-traefik.sh",
+      "sudo -n env DEBIAN_FRONTEND=noninteractive apt-get install -y prometheus-node-exporter",
+      "sudo -n systemctl enable --now prometheus-node-exporter",
+      "rm -f /tmp/install-traefik.sh /tmp/chillilime-traefik.yml /tmp/chillilime-traefik-mc.yml /tmp/chillilime-traefik-services.yml"
     ]
   }
 
