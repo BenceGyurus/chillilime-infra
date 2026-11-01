@@ -24,6 +24,8 @@ A könyvtár neve jelenleg `ansbile`; a parancsokban is ezt használd.
 | Proxmox | `10.1.1.2` | `chililime` node |
 | Minecraft | `10.1.1.3` | 101-es VM |
 | Monitoring | `10.1.1.4` | 103-as VM |
+| Forgejo | `10.1.1.5` | 104-es VM, 15 GiB OS + 50 GiB mirror adat |
+| Forgejo runner | privát infrastruktúra-beállítás | Debian VM, 80 GiB, 10 CPU / 16 GiB RAM |
 | Loadbalancer | `10.1.1.254` | Debian LXC |
 
 A VM-ek a 100-as template-ből készülnek, a belső hálózat a `vmbr1` bridge-et használja.

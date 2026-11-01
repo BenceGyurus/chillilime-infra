@@ -23,8 +23,21 @@ services:
             MAPPING: |
                 dori.mc.chililime.hu=crafty:25568
                 sch.mc.chililime.hu=crafty:25565
+                lastofus.mc.chililime.hu=mc-router-forge:25566     
+
         ports:
         - "25565:25565"
+
+
+    mc-router-forge:
+        image: itzg/mc-router
+        restart: always
+        environment:
+            PORT: "25566"
+            RECEIVE_PROXY_PROTOCOL: "true"
+            USE_PROXY_PROTOCOL: "false"
+            MAPPING: |
+                lastofus.mc.chililime.hu=crafty:25567
   
     database:
         image: 'postgres:17'

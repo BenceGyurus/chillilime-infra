@@ -1,23 +1,47 @@
 http:
   routers:
+    forgejo-router:
+      rule: "Host(`git.chililime.hu`)"
+      entryPoints:
+        - websecure
+      service: forgejo-service
+      middlewares:
+        - grafana-ratelimit
+      tls:
+        certResolver: letsencrypt
+
     grafana-router:
       rule: "Host(`grafana.chililime.hu`)"
       entryPoints:
         - websecure
       service: grafana-service
       middlewares:
+        - grafana-local-only
         - grafana-ratelimit
-      tls:
-        certResolver: letsencrypt
+      tls: {}
 
   middlewares:
+    grafana-local-only:
+      ipAllowList:
+        sourceRange:
+          - "10.0.0.0/8"
+          - "172.16.0.0/12"
+          - "192.168.0.0/16"
+          - "127.0.0.1/32"
+          - "::1/128"
+
     grafana-ratelimit:
       rateLimit:
-        average: 10
+        average: 20
         period: 1s
-        burst: 20
+        burst: 40
 
   services:
+    forgejo-service:
+      loadBalancer:
+        servers:
+          - url: "http://10.1.1.5:3000"
+
     grafana-service:
       loadBalancer:
         servers:

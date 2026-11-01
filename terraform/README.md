@@ -4,6 +4,7 @@
 | --- | --- |
 | [mc](mc/README.md) | Minecraft VM, Crafty Docker-stack és node-exporter |
 | [monitoring](monitoring/README.md) | monitoring VM, konfigurációk és Docker-stack |
+| [forgejo](forgejo/README.md) | Forgejo VM külön mirror adatlemezzel és külön Debian Actions runner VM |
 | [loadbalancer](loadbalancer/README.md) | Debian LXC, Traefik és node-exporter |
 | [router](router/README.md) | egy OPNsense VLAN-erőforrás, még hiányos modul |
 

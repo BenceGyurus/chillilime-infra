@@ -2,6 +2,10 @@
 
 - `docker.sh`: Debian Docker APT repository, Docker Engine, Buildx és Compose plugin telepítése.
   Ütköző csomagok eltávolításával és csomagtelepítéssel jár.
+- `forgejo-storage.sh`: a sorozatszám alapján azonosított Forgejo adatlemez biztonságos
+  inicializálása, UUID-alapú csatolása és Docker mount-függőség előkészítése.
+- `forgejo-runner-drain.py`: szerveroldali karbantartási labellel szünetelteti az új
+  feladatokat, majd megvárja a meglévő jobokat a runner újraindítása előtt.
 - `traefik.sh`: legfrissebb GitHub-release letöltése architektúra szerint, rendszerfelhasználó,
   konfigurációjogosultságok, ACME-tároló és systemd unit előkészítése; elindítja/újraindítja Traefiket.
 

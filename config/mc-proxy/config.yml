@@ -44,6 +44,11 @@ servers:
     motd: 'Dorito szeró'
     address: crafty:25568
     restricted: false
+  
+  thelastofus:
+    motd: 'The last of us'
+    address: crafty:25567
+    restricted: false
 
 listeners:
   - host: 0.0.0.0:25577
@@ -51,10 +56,12 @@ listeners:
     forced_hosts:
       sch.mc.chililime.hu: socimc
       dori.mc.chililime.hu: dori
+      lastofus.mc.chililme.hu: thelastofus
 
     priorities:
       - socimc
       - dori
+      - thelastofus
 
     force_default_server: false
     ping_passthrough: true

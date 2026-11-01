@@ -1,0 +1,18 @@
+services:
+  runner:
+    image: data.forgejo.org/forgejo/runner:13.2.0@sha256:ca3d5eea46004789a175d1369eec6829d3ea9bfbe2011a06625b4bdaa55f7552
+    restart: unless-stopped
+    stop_grace_period: 6h
+    # Dedicated Debian VM: the runner needs access to its Docker daemon.
+    user: "0:0"
+    working_dir: /data
+    command: [forgejo-runner, daemon, --config, /etc/forgejo-runner/config.yml]
+    volumes:
+      - /var/lib/forgejo-runner:/data
+      - /opt/forgejo-runner/config.yml:/etc/forgejo-runner/config.yml:ro
+      - /var/run/docker.sock:/var/run/docker.sock
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"

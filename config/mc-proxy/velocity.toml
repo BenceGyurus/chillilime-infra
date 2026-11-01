@@ -25,10 +25,12 @@ enable-player-address-logging = true
 
 socimc = "crafty:25565"
 dori = "crafty:25568"
+thelastofus = "crafty:25567"
 
 try = [
   "socimc",
-  "dori"
+  "dori",
+  "thelastofus"
 ]
 
 
@@ -40,6 +42,10 @@ try = [
 
 "dori.mc.chililime.hu" = [
   "dori"
+]
+
+"lastofus.mc.chililime.hu" = [
+  "thelastofus"
 ]
 
 

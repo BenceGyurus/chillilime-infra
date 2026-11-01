@@ -81,6 +81,9 @@ forwarding-secret
 /docker/monitoring/prometheus/
 /docker/monitoring/grafana/
 /docker/monitoring/pve-exporter/
+/docker/forgejo/data/
+/docker/forgejo-runner/data/
+.runner
 *.log
 
 # Local database files and backups

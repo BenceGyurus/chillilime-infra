@@ -1,0 +1,30 @@
+services:
+  forgejo:
+    image: codeberg.org/forgejo/forgejo:16.0.5
+    restart: unless-stopped
+    environment:
+      USER_UID: "1000"
+      USER_GID: "1000"
+      FORGEJO__database__DB_TYPE: sqlite3
+      FORGEJO__database__PATH: /data/forgejo/forgejo.db
+      FORGEJO__server__DOMAIN: ${FORGEJO_DOMAIN:-10.1.1.5}
+      FORGEJO__server__ROOT_URL: ${FORGEJO_ROOT_URL:-http://10.1.1.5:3000/}
+      FORGEJO__server__SSH_DOMAIN: ${FORGEJO_DOMAIN:-10.1.1.5}
+      FORGEJO__server__SSH_PORT: "2222"
+      FORGEJO__actions__ENABLED: "true"
+      FORGEJO__service__DISABLE_REGISTRATION: "true"
+    ports:
+      - "3000:3000"
+      - "2222:22"
+    volumes:
+      - type: bind
+        source: /srv/forgejo/data
+        target: /data
+        bind:
+          create_host_path: false
+      - /etc/localtime:/etc/localtime:ro
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"

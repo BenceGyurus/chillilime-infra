@@ -1,0 +1,16 @@
+log:
+  level: info
+runner:
+  file: /data/.runner
+  capacity: 6
+  timeout: 6h
+  shutdown_timeout: 6h
+  labels:
+    - debian:docker://turiloki-ci:node22-bookworm-v1
+    - debian-android:docker://turiloki-android:node22-sdk36-v1
+cache:
+  enabled: false
+container:
+  privileged: false
+  docker_host: unix:///var/run/docker.sock
+  options: --device=/dev/kvm
